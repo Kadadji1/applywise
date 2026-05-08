@@ -1,3 +1,46 @@
+const jobTextArea = document.getElementById("jobText");
+const resumeTextArea = document.getElementById("resumeText");
+
+chrome.storage.local.get(["savedResume", "savedJobText"], (result) => {
+
+  if (result.savedResume) {
+    resumeTextArea.value = result.savedResume;
+  }
+
+  if (result.savedJobText) {
+    jobTextArea.value = result.savedJobText;
+  }
+
+});
+
+resumeTextArea.addEventListener("input", () => {
+
+  chrome.storage.local.set({
+    savedResume: resumeTextArea.value
+  });
+
+});
+
+jobTextArea.addEventListener("input", () => {
+
+  chrome.storage.local.set({
+    savedJobText: jobTextArea.value
+  });
+
+});
+
+
+document.getElementById("saveProfileBtn").addEventListener("click", () => {
+
+  chrome.storage.local.set({
+    savedResume: resumeTextArea.value
+  });
+
+  alert("Profile saved.");
+
+});
+
+
 document.getElementById("extractBtn").addEventListener("click", async () => {
 
   const [tab] = await chrome.tabs.query({
@@ -5,12 +48,18 @@ document.getElementById("extractBtn").addEventListener("click", async () => {
     currentWindow: true
   });
 
-  chrome.tabs.sendMessage(tab.id, {
-    action: "getJobDescription"
-  }, (response) => {
+  chrome.scripting.executeScript({
+    target: { tabId: tab.id },
+    func: () => document.body.innerText
+  }, (results) => {
 
-    document.getElementById("jobText").value =
-      response.jobText;
+    const pageText = results[0].result;
+
+    jobTextArea.value = pageText.substring(0, 5000);
+
+    chrome.storage.local.set({
+      savedJobText: jobTextArea.value
+    });
 
   });
 
@@ -19,8 +68,8 @@ document.getElementById("extractBtn").addEventListener("click", async () => {
 
 document.getElementById("generateBtn").addEventListener("click", () => {
 
-  const jobText = document.getElementById("jobText").value;
-  const resumeText = document.getElementById("resumeText").value;
+  const jobText = jobTextArea.value.toLowerCase();
+  const resumeText = resumeTextArea.value.toLowerCase();
 
   if (!jobText || !resumeText) {
     alert("Please add both the job description and your resume/profile.");
@@ -29,48 +78,78 @@ document.getElementById("generateBtn").addEventListener("click", () => {
 
   document.getElementById("results").classList.remove("hidden");
 
-  const score = Math.floor(Math.random() * 25) + 70;
+  const keywords = [
+    "qa",
+    "testing",
+    "selenium",
+    "playwright",
+    "api",
+    "javascript",
+    "automation",
+    "jira",
+    "sql",
+    "python"
+  ];
+
+  let matchedKeywords = 0;
+  let missingSkills = [];
+
+  keywords.forEach(keyword => {
+
+    if (jobText.includes(keyword) && resumeText.includes(keyword)) {
+      matchedKeywords++;
+    }
+
+    if (jobText.includes(keyword) && !resumeText.includes(keyword)) {
+      missingSkills.push(keyword);
+    }
+
+  });
+
+  let score = Math.floor((matchedKeywords / keywords.length) * 100);
+
+  if (score < 15) {
+    score = 15;
+  }
 
   document.getElementById("matchScore").innerText = score + "%";
-
-  const missingSkills = [
-    "Selenium",
-    "CI/CD",
-    "REST API Testing"
-  ];
-
-  const suggestions = [
-    "Highlight your QA testing experience more clearly.",
-    "Add automation testing tools to your resume.",
-    "Mention collaboration with developers and designers."
-  ];
 
   const missingSkillsList = document.getElementById("missingSkills");
   missingSkillsList.innerHTML = "";
 
   missingSkills.forEach(skill => {
+
     const li = document.createElement("li");
     li.innerText = skill;
     missingSkillsList.appendChild(li);
+
   });
+
+  const suggestions = [
+    "Highlight your technical skills more clearly.",
+    "Add more QA-related keywords to improve ATS matching.",
+    "Mention tools and technologies used in projects."
+  ];
 
   const suggestionsList = document.getElementById("resumeSuggestions");
   suggestionsList.innerHTML = "";
 
   suggestions.forEach(item => {
+
     const li = document.createElement("li");
     li.innerText = item;
     suggestionsList.appendChild(li);
+
   });
 
   document.getElementById("coverLetter").value =
 `Dear Hiring Team,
 
-I am excited to apply for this role. My background in QA testing, software tools, and product-focused problem solving aligns well with the position requirements.
+I am excited to apply for this role. My background and technical interests align with many of the skills mentioned in the job description.
 
-I am especially interested in contributing to a collaborative team while continuing to grow my technical and automation skills.
+I am especially interested in continuing to grow in QA, automation, and software development while contributing to a collaborative team.
 
-Thank you for your time and consideration.
+Thank you for your consideration.
 
 Best regards,`;
 

@@ -50,7 +50,32 @@ document.getElementById("extractBtn").addEventListener("click", async () => {
 
   chrome.scripting.executeScript({
     target: { tabId: tab.id },
-    func: () => document.body.innerText
+    func: () => {
+
+      const linkedInJobDescription = document.querySelector('[data-testid="expandable-text-box"]');
+
+      if (linkedInJobDescription) {
+        return linkedInJobDescription.innerText;
+      }
+
+      const possibleDescriptionBlocks = [
+        '.jobs-description',
+        '.jobs-box__html-content',
+        '#jobDescriptionText',
+        '[data-testid="jobDescription"]'
+      ];
+
+      for (const selector of possibleDescriptionBlocks) {
+        const block = document.querySelector(selector);
+
+        if (block) {
+          return block.innerText;
+        }
+      }
+
+      return document.body.innerText;
+
+    }
   }, (results) => {
 
     const pageText = results[0].result;

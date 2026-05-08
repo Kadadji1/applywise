@@ -40,6 +40,21 @@ button {
   color: white;
 }
 
+.smallBtn {
+  width: auto;
+  padding: 6px 10px;
+  margin-top: 0;
+  font-size: 12px;
+  background: #ddd;
+}
+
+.resumeHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 10px;
+}
+
 textarea {
   width: 100%;
   min-height: 120px;

@@ -16,8 +16,12 @@
   <label for="jobText">Job Description</label>
   <textarea id="jobText" placeholder="Open a job posting and click Extract Job Description"></textarea>
 
-  <label for="resumeText">Your Resume / Profile</label>
-  <textarea id="resumeText" placeholder="Paste your resume, LinkedIn summary, or short professional profile here"></textarea>
+  <div class="resumeHeader">
+    <label for="resumeText">Your Resume / Profile</label>
+    <button id="saveProfileBtn" class="smallBtn">Save Profile</button>
+  </div>
+
+  <textarea id="resumeText" placeholder="Paste your resume or professional profile once and save it"></textarea>
 
   <button id="generateBtn">Generate Analysis</button>
 

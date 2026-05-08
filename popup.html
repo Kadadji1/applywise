@@ -6,11 +6,38 @@
 </head>
 <body>
 
-  <h1>ApplyWise</h1>
+  <div class="header">
+    <h1>ApplyWise</h1>
+    <p>AI job application copilot</p>
+  </div>
 
-  <button id="analyzeBtn">Analyze Job</button>
+  <button id="extractBtn">Extract Job Description</button>
 
-  <textarea id="jobText" placeholder="Job description"></textarea>
+  <label for="jobText">Job Description</label>
+  <textarea id="jobText" placeholder="Open a job posting and click Extract Job Description"></textarea>
+
+  <label for="resumeText">Your Resume / Profile</label>
+  <textarea id="resumeText" placeholder="Paste your resume, LinkedIn summary, or short professional profile here"></textarea>
+
+  <button id="generateBtn">Generate Analysis</button>
+
+  <div id="results" class="results hidden">
+    <h2>Application Analysis</h2>
+
+    <div class="scoreBox">
+      <span>Match Score</span>
+      <strong id="matchScore">0%</strong>
+    </div>
+
+    <h3>Missing Skills</h3>
+    <ul id="missingSkills"></ul>
+
+    <h3>Resume Suggestions</h3>
+    <ul id="resumeSuggestions"></ul>
+
+    <h3>Cover Letter Draft</h3>
+    <textarea id="coverLetter" readonly></textarea>
+  </div>
 
   <script src="popup.js"></script>
 

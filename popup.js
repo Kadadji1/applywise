@@ -1,10 +1,15 @@
 const jobTextArea = document.getElementById("jobText");
 const resumeTextArea = document.getElementById("resumeText");
 
+const profileStatus = document.getElementById("profileStatus");
+const extractStatus = document.getElementById("extractStatus");
+const analysisStatus = document.getElementById("analysisStatus");
+
 chrome.storage.local.get(["savedResume", "savedJobText"], (result) => {
 
   if (result.savedResume) {
     resumeTextArea.value = result.savedResume;
+    profileStatus.innerText = "✓ Saved profile loaded";
   }
 
   if (result.savedJobText) {
@@ -36,12 +41,25 @@ document.getElementById("saveProfileBtn").addEventListener("click", () => {
     savedResume: resumeTextArea.value
   });
 
-  alert("Profile saved.");
+  profileStatus.innerText = "✓ Profile saved successfully";
+
+});
+
+
+document.getElementById("clearProfileBtn").addEventListener("click", () => {
+
+  resumeTextArea.value = "";
+
+  chrome.storage.local.remove("savedResume");
+
+  profileStatus.innerText = "Profile cleared";
 
 });
 
 
 document.getElementById("extractBtn").addEventListener("click", async () => {
+
+  extractStatus.innerText = "Extracting job description...";
 
   const [tab] = await chrome.tabs.query({
     active: true,
@@ -86,6 +104,8 @@ document.getElementById("extractBtn").addEventListener("click", async () => {
       savedJobText: jobTextArea.value
     });
 
+    extractStatus.innerText = "✓ Job description extracted";
+
   });
 
 });
@@ -93,11 +113,14 @@ document.getElementById("extractBtn").addEventListener("click", async () => {
 
 document.getElementById("generateBtn").addEventListener("click", () => {
 
+  analysisStatus.innerText = "Analyzing job match...";
+
   const jobText = jobTextArea.value.toLowerCase();
   const resumeText = resumeTextArea.value.toLowerCase();
 
   if (!jobText || !resumeText) {
     alert("Please add both the job description and your resume/profile.");
+    analysisStatus.innerText = "";
     return;
   }
 
@@ -177,5 +200,22 @@ I am especially interested in continuing to grow in QA, automation, and software
 Thank you for your consideration.
 
 Best regards,`;
+
+  analysisStatus.innerText = "✓ Analysis completed";
+
+});
+
+
+document.getElementById("copyCoverLetterBtn").addEventListener("click", async () => {
+
+  const text = document.getElementById("coverLetter").value;
+
+  await navigator.clipboard.writeText(text);
+
+  document.getElementById("copyCoverLetterBtn").innerText = "Copied";
+
+  setTimeout(() => {
+    document.getElementById("copyCoverLetterBtn").innerText = "Copy";
+  }, 1500);
 
 });

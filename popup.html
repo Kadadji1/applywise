@@ -12,18 +12,24 @@
   </div>
 
   <button id="extractBtn">Extract Job Description</button>
+  <p id="extractStatus" class="statusText"></p>
 
   <label for="jobText">Job Description</label>
   <textarea id="jobText" placeholder="Open a job posting and click Extract Job Description"></textarea>
 
   <div class="resumeHeader">
     <label for="resumeText">Your Resume / Profile</label>
-    <button id="saveProfileBtn" class="smallBtn">Save Profile</button>
+    <div>
+      <button id="saveProfileBtn" class="smallBtn">Save</button>
+      <button id="clearProfileBtn" class="smallBtn dangerBtn">Clear</button>
+    </div>
   </div>
 
+  <p id="profileStatus" class="statusText">No saved profile yet.</p>
   <textarea id="resumeText" placeholder="Paste your resume or professional profile once and save it"></textarea>
 
   <button id="generateBtn">Generate Analysis</button>
+  <p id="analysisStatus" class="statusText"></p>
 
   <div id="results" class="results hidden">
     <h2>Application Analysis</h2>
@@ -39,7 +45,10 @@
     <h3>Resume Suggestions</h3>
     <ul id="resumeSuggestions"></ul>
 
-    <h3>Cover Letter Draft</h3>
+    <div class="sectionHeader">
+      <h3>Cover Letter Draft</h3>
+      <button id="copyCoverLetterBtn" class="smallBtn">Copy</button>
+    </div>
     <textarea id="coverLetter" readonly></textarea>
   </div>
 

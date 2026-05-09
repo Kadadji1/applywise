@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
-  "name": "ApplyWise",
+  "name": "Quiet Apply",
   "version": "1.0",
-  "description": "AI Job Application Copilot",
+  "description": "Apply smarter, not louder.",
   "permissions": ["activeTab", "scripting", "storage"],
   "action": {
     "default_popup": "popup.html"

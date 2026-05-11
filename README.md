@@ -1,73 +1,128 @@
-# ApplyWise
+# Quiet Apply
 
-ApplyWise is an AI-powered Chrome extension that helps job seekers analyze job postings, compare them with their resume, and generate tailored application materials.
+Apply smarter, not louder.
 
-## Project Goal
+Quiet Apply is an AI-powered Chrome extension designed to help job seekers analyze job postings, improve resumes for ATS systems, and generate smarter, more targeted job applications.
 
-The goal of this project is to build a practical job application copilot for users applying to QA Tester, QA Automation, and Junior Software Developer roles.
+The project is focused on building a modern AI job application assistant with a clean SaaS-style workflow.
 
-## Core Features
+## Vision
 
-- Job description extraction from web pages
-- Resume/profile comparison
-- Match score generation
+Quiet Apply is not just a resume generator.
+
+The long-term goal is to build an AI-powered job intelligence platform that helps users:
+
+- Understand job postings
+- Improve ATS compatibility
+- Detect missing skills
+- Tailor resumes to specific roles
+- Generate professional summaries and cover letters
+- Simulate recruiter feedback
+- Make smarter application decisions
+
+## Current MVP Features
+
+### Chrome Extension
+- Modern popup UI
+- Job description extraction from job pages
+- Resume/profile input
+- Local data storage
+- AI analysis workflow
+
+### AI Backend
+- Node.js + Express backend
+- OpenAI API integration
+- Hosted on Render
+- Secure server-side API architecture
+
+### AI Analysis
+- Resume vs job comparison
+- ATS-style match scoring
 - Missing skills detection
-- Tailored cover letter generation
-- Resume bullet suggestions
-- Application tracking dashboard
-
-## MVP Scope
-
-The first version will focus on:
-
-1. Extracting job description text from a job posting page
-2. Allowing the user to paste their resume or professional profile
-3. Generating a basic job fit analysis
-4. Creating a tailored cover letter draft
+- Resume improvement suggestions
+- AI-generated professional summary recommendations
 
 ## Tech Stack
 
+### Frontend
 - JavaScript
 - HTML
 - CSS
 - Chrome Extension APIs
-- Local Storage
-- Future: OpenAI API, Supabase, Firebase, or PostgreSQL
 
-## Roadmap
+### Backend
+- Node.js
+- Express.js
+- OpenAI API
+- Render deployment
 
-### Phase 1: Chrome Extension Foundation
-- Create extension structure
-- Build popup UI
-- Extract page text
-- Display job description in popup
+### Future Infrastructure
+- PostgreSQL or Supabase
+- User authentication
+- Stripe subscriptions
+- Analytics dashboard
 
-### Phase 2: AI Analysis
-- Add resume input
-- Generate match score
-- Identify missing skills
-- Generate tailored cover letter
+## Product Roadmap
 
-### Phase 3: Application Tracker
-- Save jobs locally
-- Add status tracking
-- Add notes and dates
+### Phase 1 — AI MVP
+- Connect extension to AI backend
+- Structured AI responses
+- ATS analysis cards
+- Loading states and polished UI
 
-### Phase 4: SaaS Features
-- User accounts
-- Cloud sync
-- Subscription limits
-- Premium AI generations
+### Phase 2 — Deep Job Intelligence
+- Recruiter-style feedback
+- Hidden requirement detection
+- Seniority analysis
+- Company culture insights
+- Job quality scoring
+
+### Phase 3 — Smart Resume Tailoring
+- AI resume rewriting
+- Keyword optimization
+- Tailored summaries
+- Cover letter generation
+- Multiple resume profiles
+
+### Phase 4 — Career Assistant Platform
+- LinkedIn parsing
+- Application tracking
+- Saved job history
+- AI interview preparation
+- Career growth recommendations
 
 ## Monetization Ideas
 
-- Free daily AI generation limit
-- Premium subscription for unlimited generations
+### Free Tier
+- Limited daily AI analyses
+- Basic ATS scoring
+- Limited resume optimization
+
+### Pro Subscription
+- Unlimited analyses
+- Advanced ATS optimization
+- Tailored resume rewriting
+- AI cover letters
 - Multiple resume profiles
-- ATS optimization
-- Application analytics
-- Interview preparation tools
+- Recruiter simulation tools
 
-## Status
+## Current Status
 
-Planning and MVP setup.
+### Completed
+- Branding and product direction
+- Chrome extension foundation
+- Live AI backend deployment
+- OpenAI integration
+- GitHub and Render deployment pipeline
+- Extension branding and icon system
+
+### In Progress
+- Connecting live AI analysis to popup UI
+- Structured response rendering
+- Modern SaaS-style interface redesign
+
+## Project Philosophy
+
+Quiet Apply focuses on clarity, simplicity, and practical AI assistance instead of overwhelming users with generic AI output.
+
+The goal is to create a clean, fast, and intelligent tool that genuinely improves the job application process.

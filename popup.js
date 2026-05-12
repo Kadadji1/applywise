@@ -34,7 +34,6 @@ jobTextArea.addEventListener("input", () => {
 
 });
 
-
 document.getElementById("saveProfileBtn").addEventListener("click", () => {
 
   chrome.storage.local.set({
@@ -45,7 +44,6 @@ document.getElementById("saveProfileBtn").addEventListener("click", () => {
 
 });
 
-
 document.getElementById("clearProfileBtn").addEventListener("click", () => {
 
   resumeTextArea.value = "";
@@ -55,7 +53,6 @@ document.getElementById("clearProfileBtn").addEventListener("click", () => {
   profileStatus.innerText = "Profile cleared";
 
 });
-
 
 document.getElementById("extractBtn").addEventListener("click", async () => {
 
@@ -110,8 +107,7 @@ document.getElementById("extractBtn").addEventListener("click", async () => {
 
 });
 
-
-document.getElementById("generateBtn").addEventListener("click", () => {
+document.getElementById("generateBtn").addEventListener("click", async () => {
 
   analysisStatus.innerText = "Analyzing job match...";
 
@@ -126,85 +122,38 @@ document.getElementById("generateBtn").addEventListener("click", () => {
 
   document.getElementById("results").classList.remove("hidden");
 
-  const keywords = [
-    "qa",
-    "testing",
-    "selenium",
-    "playwright",
-    "api",
-    "javascript",
-    "automation",
-    "jira",
-    "sql",
-    "python"
-  ];
+  try {
 
-  let matchedKeywords = 0;
-  let missingSkills = [];
+    const response = await fetch("https://quiet-apply-api.onrender.com/analyze", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        jobDescription: jobText,
+        resume: resumeText
+      })
+    });
 
-  keywords.forEach(keyword => {
+    const data = await response.json();
 
-    if (jobText.includes(keyword) && resumeText.includes(keyword)) {
-      matchedKeywords++;
-    }
+    analysisStatus.innerText = "✓ AI analysis complete";
 
-    if (jobText.includes(keyword) && !resumeText.includes(keyword)) {
-      missingSkills.push(keyword);
-    }
+    document.getElementById("results").innerHTML = `
+      <div class="result-card">
+        <h3>AI Analysis</h3>
+        <p style="white-space: pre-wrap;">${data.result}</p>
+      </div>
+    `;
 
-  });
+  } catch (error) {
 
-  let score = Math.floor((matchedKeywords / keywords.length) * 100);
+    console.error(error);
+    analysisStatus.innerText = "AI analysis failed.";
 
-  if (score < 15) {
-    score = 15;
   }
 
-  document.getElementById("matchScore").innerText = score + "%";
-
-  const missingSkillsList = document.getElementById("missingSkills");
-  missingSkillsList.innerHTML = "";
-
-  missingSkills.forEach(skill => {
-
-    const li = document.createElement("li");
-    li.innerText = skill;
-    missingSkillsList.appendChild(li);
-
-  });
-
-  const suggestions = [
-    "Highlight your technical skills more clearly.",
-    "Add more QA-related keywords to improve ATS matching.",
-    "Mention tools and technologies used in projects."
-  ];
-
-  const suggestionsList = document.getElementById("resumeSuggestions");
-  suggestionsList.innerHTML = "";
-
-  suggestions.forEach(item => {
-
-    const li = document.createElement("li");
-    li.innerText = item;
-    suggestionsList.appendChild(li);
-
-  });
-
-  document.getElementById("coverLetter").value =
-`Dear Hiring Team,
-
-I am excited to apply for this role. My background and technical interests align with many of the skills mentioned in the job description.
-
-I am especially interested in continuing to grow in QA, automation, and software development while contributing to a collaborative team.
-
-Thank you for your consideration.
-
-Best regards,`;
-
-  analysisStatus.innerText = "✓ Analysis completed";
-
 });
-
 
 document.getElementById("copyCoverLetterBtn").addEventListener("click", async () => {
 
